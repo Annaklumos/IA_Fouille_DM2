@@ -9,6 +9,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.neural_network import MLPClassifier
 from sklearn.metrics import classification_report, confusion_matrix
+from sklearn.metrics import plot_precision_recall_curve
 
 #__________________________________________________________________________________________
 # Expérience de prédiction de cancer de la poitrine
@@ -54,9 +55,13 @@ mlp = MLPClassifier(activation='relu',
                     verbose=False,
                     warm_start=False)
 
-mlp.fit(X_train, y_train)
+estimator = mlp.fit(X_train, y_train)
 
 # Evaluation de la performance sur l'ensemble de test
 
 predictions = mlp.predict(X_test)
 print(classification_report(y_test, predictions))
+
+# Tracé des courbes de précision
+
+print(plot_precision_recall_curve(estimator, X_test, y_test))
