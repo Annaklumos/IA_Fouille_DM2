@@ -39,8 +39,8 @@ Ces modules principaux sont associés à des modules secondaires permettant d’
       - *write_outputs()* contient toutes les fonctions permettant de renvoyer les différentes données sous forme .tsv, .fasta, .bed
 
 
-L'outil fonctionne comme suit :
-    1. La fonction **init_main()** est appelée pour déclarer les variables et renvoie la fonction **main()**.
+L'outil fonctionne comme suit : \n
+    1. La fonction **init_main()** est appelée pour déclarer les variables et renvoie la fonction **main()**. \n
     2. La fonction **main()** est appelée pour créer les paramètres spécifiques aux variables déclarées et lance les fonctions **create_design_blocks()** et **design_oligo()**. Si cette dernière renvoie "False", la fonction se rappelle pour relancer un design avec des tailles de chevauchements de départ différents.
     3. La fonction **design_oligo()** récupère les blocs créés à partir du module ***split*** et de la fonction **create_design_blocks()** et lance **compute_tm()** pour chaque bloc
     4. **compute_tm()** calcule la Tm, classe et modifie chaque set de chevauchements d'oligonucléotides un nombre X de fois et renvoie ensuite la fonction **output_final_oligo()** si les chevauchements respectent les conditions de l'utilisateur, sinon renvoie "False"
