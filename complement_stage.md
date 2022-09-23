@@ -1,6 +1,6 @@
 # Première partie
 
-1. Un parseur est un analyseur synthaxique. Il permet d'analyser un langage, d'extraire des éléments et les interprete. Ici, notre but est d'utiliser l'outil via un terminal en tapant la commande exécutant l'outil à travers un parseur de la ligne de commande. Nous trouvons que ceci est beaucoup plus simple à utiliser qu'un dictionnaire, car il permet d'avoir un contrôle sur les variables utilisées par le script sans avoir à lire le code pour trouver dans quel(s) module(s) les variables sont créées et appelées.  
+1. Un parseur est un analyseur synthaxique. Il permet d'analyser un langage, d'extraire des éléments et les interprete. Ici, notre but est d'utiliser l'outil via un terminal en tapant la commande exécutant l'outil à travers un parseur de la ligne de commande. Nous trouvons que ceci est beaucoup plus simple à utiliser qu'un dictionnaire, car il permet d'avoir un contrôle sur les variables utilisées par le script sans avoir à lire le code pour trouver dans quel(s) module(s) les variables sont créées et appelées. Nous avons utilisé la bibliothèque **argparse** car elle est la plus récente et a une très bonne documentation, avec une bonne gestion des exceptions.
 
 2. Le script principal se sépare en plusieurs modules principaux :
 
@@ -48,14 +48,17 @@
 
       Vous trouverez en pièce jointe un diagramme interactif d'appel des fonctions citées.
 
-      Cette implémentation n'est pas la plus optimale, pour avoir un code plus lisible et fonctionnel, il faudrait transformer les oligonucléotides, les chevauchements et les blocs sous forme de classes (par exemple une classe Oligo(), une classe Block() et une classe Overlaps()). Néanmoins, le fait d'utiliser des dictionnaires nous facilite la tâche pour créer une API autour de l'outil, car il est facile de transformer un dictionnaire en une requête réponse sous format JSON.  
+      Cette implémentation n'est pas la plus optimale, pour avoir un code plus lisible et fonctionnel, il faudrait transformer les oligonucléotides, les chevauchements et les blocs sous forme de classes (par exemple une classe Oligo(), une classe Block() et une classe Overlaps()). Néanmoins, le fait d'utiliser des modules nous permet de morceler un code large et compliqué en petits modules plus facile à manager. Cela nous permet aussi de récupérer et d'appeler les fonctions depuis un seul fichier, ce qui facilite la réutilisation, le management et le test de l'outil. 
 
 
 
-3. Actuellement, les tests implémentés permettent de vérifier quelques critères:
-  - On souhaite vérifier si les différents fichiers sont bien créés à l'aide de nos fonctions, plusieurs tests sont utilisés pour vérifier ça
-  - On souhaite savoir si les blocs ou les oligonucléotides formés à l'aide de l'outil reproduisent bien exactement le gène de référence. Plusieurs tests sont utilisés pour mapper les oligonucléotides/blocs au gène de référence et regarde le taux de couverture. Si le gène n'est pas entièrement couvert, le test est faux.
-  - On souhaite tester les différents paramètres automatiquement, plusieurs tests ont étés en utilisant une grille de paramètres pour voir si l'outil ne se termine pas prématurément.
+3.  Nous l'avons vu en cours, les tests sont primordiaux pour suivre l'intégration continuel d'un outil et son déployement. Ils nous permettent de nous assurer que les changements effectués dans la base du code n'affecte pas les logiques centrales de celui-ci. Les tests sont écris pour cibler des morceaux spécifiques du code (généralement des fonctions) pour vérifier le bon fonctionnement de ceux-ci, ainsi que le management des exceptions. 
+Actuellement, les tests implémentés permettent de vérifier quelques critères:
+    - On souhaite vérifier si les différents fonctions de l'outil sont bien conforme à ce qu'on attend d'elles, plusieurs tests sont utilisés pour vérifier ça
+    - On souhaite savoir si les blocs ou les oligonucléotides formés à l'aide de l'outil reproduisent bien exactement le gène de référence. Plusieurs tests sont utilisés pour mapper les oligonucléotides/blocs au gène de référence et regarde le taux de couverture. Si le gène n'est pas entièrement couvert, le test est faux.
+    - On souhaite tester les différents paramètres automatiquement, plusieurs tests ont étés en utilisant une grille de paramètres pour voir si l'outil ne se termine pas prématurément.  
+
+    Prenons par exemple l'un des tests, **test_oligo_with_gene()**, qui vérifie si les oligonucléotides d'un bloc mappent bien le bloc en question avec une couverture de 100%. Comment le test fonctionne : il appelle l'outil pour créer des oligonucléotides harmonisés à partir d'une séquence d'entrée appelée *test*. On itère à chaque bloc et on vérifie si les oligos reproduisent bien un bloc en additionnant chaque séquence d'oligonucléotide et en comparant la séquence obtenue avec le bloc en question. Si la séquence obtenue n'est pas égal au bloc, le test échoue. 
 
 
 # Deuxième partie
